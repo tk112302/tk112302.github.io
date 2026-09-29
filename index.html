@@ -1,0 +1,793 @@
+<!--
+  ========================================
+  刘安琪拉 — 影视摄影个人作品集网站
+  ========================================
+
+  【部署说明】
+  1. 双击 index.html 即可在浏览器中打开预览
+  2. 所有视频、PDF 均引用本地文件，请保持文件夹结构不变
+  3. 部署到服务器时，保持 index.html 与「视频」「摄影、图册」「校园经历」文件夹同级
+
+  【文件结构】
+  index.html
+  个人资料介绍.docx          ← 原始资料（不直接引用）
+  视频/
+    1.《画境寻色·千里江山湘韵记》…/
+    2.《汉梦今缘》…/
+    …（共12个视频文件夹）
+  摄影、图册/
+    《真亦？》-图册.pdf
+    《行止时记》-图册.pdf
+  校园经历/
+    "藝力量"社会实践团宣传视频.mp4
+    大型晚会思政课堂宣传视频《篇章》.mp4
+
+  【配色说明】
+  - 背景：纯白 #ffffff
+  - 主文字：深炭灰 #2a2a2a
+  - 次要文字：浅灰 #8a8a8a
+  - 点缀色：低饱和灰蓝 #7b8c9c
+  - 卡片边框：极浅灰 #eaeaea
+-->
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>刘安琪拉 — 影视摄影作品集</title>
+  <meta name="description" content="刘安琪拉，长沙理工大学影视摄影与制作专业，影视摄影个人作品集">
+
+  <!-- 无外部 CDN 依赖，所有样式内联，字体使用系统自带中文字体 -->
+
+  <style>
+    /* ===== 基础重置 ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; line-height: 1.5; tab-size: 4; font-family: ui-sans-serif, system-ui, sans-serif; }
+    body { -webkit-font-smoothing: antialiased; }
+    img, svg, video, canvas { display: block; }
+    img, video { max-width: 100%; height: auto; }
+    button, input { font: inherit; color: inherit; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ===== 布局 ===== */
+    .fixed { position: fixed; }
+    .absolute { position: absolute; }
+    .relative { position: relative; }
+    .top-0 { top: 0; }
+    .left-0 { left: 0; }
+    .right-0 { right: 0; }
+    .z-50 { z-index: 50; }
+
+    /* ===== Flexbox ===== */
+    .flex { display: flex; }
+    .inline-flex { display: inline-flex; }
+    .hidden { display: none; }
+    .block { display: block; }
+    .grid { display: grid; }
+    .flex-col { flex-direction: column; }
+    .flex-shrink-0 { flex-shrink: 0; }
+    .items-center { align-items: center; }
+    .justify-center { justify-content: center; }
+    .justify-between { justify-content: space-between; }
+
+    /* ===== Grid ===== */
+    .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+    .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .col-span-2 { grid-column: span 2 / span 2; }
+
+    /* ===== 间距辅助类 ===== */
+    :where(.space-x-8 > :not(:last-child)) { margin-left: 2rem; }
+    :where(.space-x-10 > :not(:last-child)) { margin-left: 2.5rem; }
+    :where(.space-y-1\.5 > :not(:last-child)) { margin-top: 0.375rem; }
+    :where(.space-y-3 > :not(:last-child)) { margin-top: 0.75rem; }
+    :where(.space-y-6 > :not(:last-child)) { margin-top: 1.5rem; }
+
+    /* ===== 尺寸 ===== */
+    .w-3\.5 { width: 0.875rem; }
+    .w-5 { width: 1.25rem; }
+    .w-8 { width: 2rem; }
+    .w-10 { width: 2.5rem; }
+    .w-28 { width: 7rem; }
+    .h-px { height: 1px; }
+    .h-8 { height: 2rem; }
+    .h-10 { height: 2.5rem; }
+    .h-16 { height: 4rem; }
+    .h-28 { height: 7rem; }
+    .min-h-screen { min-height: 100vh; }
+    .max-w-xl { max-width: 36rem; }
+    .max-w-3xl { max-width: 48rem; }
+    .max-w-6xl { max-width: 72rem; }
+    .mx-auto { margin-left: auto; margin-right: auto; }
+
+    /* ===== 内边距 ===== */
+    .p-5 { padding: 1.25rem; }
+    .p-8 { padding: 2rem; }
+    .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+    .py-24 { padding-top: 6rem; padding-bottom: 6rem; }
+    .pt-20 { padding-top: 5rem; }
+    .mb-2 { margin-bottom: 0.5rem; }
+    .mb-4 { margin-bottom: 1rem; }
+    .mb-5 { margin-bottom: 1.25rem; }
+    .mb-6 { margin-bottom: 1.5rem; }
+    .mb-8 { margin-bottom: 2rem; }
+    .mb-10 { margin-bottom: 2.5rem; }
+    .mb-14 { margin-bottom: 3.5rem; }
+    .mb-16 { margin-bottom: 4rem; }
+
+    /* ===== 间隙 ===== */
+    .gap-6 { gap: 1.5rem; }
+    .gap-8 { gap: 2rem; }
+
+    /* ===== 排版 ===== */
+    .font-sans { font-family: 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif; }
+    .font-serif { font-family: 'Source Han Serif SC', 'STSong', 'SimSun', serif; }
+    .text-xs { font-size: 0.75rem; line-height: 1rem; }
+    .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+    .text-base { font-size: 1rem; line-height: 1.5rem; }
+    .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+    .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+    .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+    .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+    .text-5xl { font-size: 3rem; line-height: 1; }
+    .font-light { font-weight: 300; }
+    .font-medium { font-weight: 500; }
+    .text-center { text-align: center; }
+    .leading-relaxed { line-height: 1.625; }
+    .tracking-wide { letter-spacing: 0.025em; }
+    .tracking-wider { letter-spacing: 0.05em; }
+    .tracking-widest { letter-spacing: 0.1em; }
+
+    /* ===== 背景与边框 ===== */
+    .bg-white { background-color: #ffffff; }
+    .bg-charcoal { background-color: #2a2a2a; }
+    .bg-bg-warm { background-color: #fafafa; }
+    .bg-charcoal { background-color: #2a2a2a; }
+    .border { border-width: 1px; border-style: solid; }
+    .border-t { border-top-width: 1px; border-top-style: solid; }
+    .border-2 { border-width: 2px; border-style: solid; }
+    .border-border-light { border-color: #eaeaea; }
+    .rounded-full { border-radius: 9999px; }
+    .rounded-lg { border-radius: 0.5rem; }
+
+    /* ===== 自定义颜色 ===== */
+    .text-charcoal { color: #2a2a2a; }
+    .text-sub-gray { color: #8a8a8a; }
+    .text-accent { color: #7b8c9c; }
+    .bg-charcoal { background-color: #2a2a2a; }
+
+    /* ===== 效果 ===== */
+    .opacity-50 { opacity: 0.5; }
+    .overflow-x-hidden { overflow-x: hidden; }
+    .object-cover { object-fit: cover; }
+
+    /* ===== 过渡 ===== */
+    .transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+    .transition-colors { transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+    .duration-300 { transition-duration: 300ms; }
+
+    /* ===== 交互状态 ===== */
+    .hover\:text-charcoal:hover { color: #2a2a2a; }
+    .hover\:text-accent:hover { color: #7b8c9c; }
+
+    /* ===== 响应式 md: (>=768px) ===== */
+    @media (min-width: 768px) {
+      .md\:flex { display: flex !important; }
+      .md\:hidden { display: none !important; }
+      .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .md\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .md\:px-10 { padding-left: 2.5rem; padding-right: 2.5rem; }
+      .md\:p-6 { padding: 1.5rem; }
+      .md\:p-10 { padding: 2.5rem; }
+      .md\:gap-8 { gap: 2rem; }
+      .md\:gap-12 { gap: 3rem; }
+      .md\:h-20 { height: 5rem; }
+      .md\:w-32 { width: 8rem; }
+      .md\:h-32 { height: 8rem; }
+      .md\:text-base { font-size: 1rem; line-height: 1.5rem; }
+      .md\:text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+      .md\:text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+      .md\:text-2xl { font-size: 1.5rem; line-height: 2rem; }
+      .md\:text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+      .md\:text-5xl { font-size: 3rem; line-height: 1; }
+      .md\:py-36 { padding-top: 9rem; padding-bottom: 9rem; }
+      .md\:py-20 { padding-top: 5rem; padding-bottom: 5rem; }
+    }
+
+    /* ===== 全局与组件样式 ===== */
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+      color: #2a2a2a;
+      background-color: #ffffff;
+      overflow-x: hidden;
+    }
+
+    .fade-in-element {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in-element.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .nav-scrolled {
+      background-color: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    .mobile-menu-bg {
+      background-color: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .video-container {
+      position: relative;
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: #f0f0f0;
+    }
+    .video-container iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      display: block;
+      border: 0;
+    }
+
+    .video-container-vertical {
+      position: relative;
+      width: 100%;
+      max-width: 280px;
+      margin: 0 auto;
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: #f0f0f0;
+    }
+    .video-container-vertical iframe {
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      display: block;
+      border: 0;
+    }
+
+    .video-container-auto {
+      position: relative;
+      width: 100%;
+      margin: 0 auto;
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: #f0f0f0;
+    }
+    .video-container-auto iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      display: block;
+      border: 0;
+    }
+
+    .timeline-line {
+      position: absolute;
+      left: 7px; top: 8px; bottom: 0;
+      width: 1px;
+      background-color: #eaeaea;
+    }
+    .timeline-dot {
+      width: 15px; height: 15px;
+      border-radius: 50%;
+      border: 1.5px solid #7b8c9c;
+      background-color: #ffffff;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pdf-card { transition: all 0.3s ease; }
+    .pdf-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    }
+
+    .work-card { transition: all 0.4s ease; }
+    .work-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+    }
+  </style>
+</head>
+
+<body class="antialiased">
+
+  <!-- ============================================= -->
+  <!-- 1. 顶部导航栏 -->
+  <!-- ============================================= -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <div class="max-w-6xl mx-auto px-6 md:px-10">
+      <div class="flex items-center justify-between h-16 md:h-20">
+
+        <!-- 姓名 Logo -->
+        <a href="#hero" class="text-charcoal font-serif text-lg md:text-xl font-light tracking-widest">
+          刘安琪拉
+        </a>
+
+        <!-- 桌面端导航菜单 -->
+        <div class="hidden md:flex items-center space-x-10">
+          <a href="#hero" class="text-sm text-sub-gray hover:text-charcoal transition-colors duration-300 tracking-wide">首页</a>
+          <a href="#video-works" class="text-sm text-sub-gray hover:text-charcoal transition-colors duration-300 tracking-wide">视频作品</a>
+          <a href="#photo-works" class="text-sm text-sub-gray hover:text-charcoal transition-colors duration-300 tracking-wide">摄影图册</a>
+          <a href="#campus" class="text-sm text-sub-gray hover:text-charcoal transition-colors duration-300 tracking-wide">校园经历</a>
+          <a href="#about" class="text-sm text-sub-gray hover:text-charcoal transition-colors duration-300 tracking-wide">关于我</a>
+        </div>
+
+        <!-- 移动端汉堡菜单按钮 -->
+        <button id="menu-btn" class="md:hidden w-8 h-8 flex flex-col items-center justify-center space-y-1.5" aria-label="菜单">
+          <span class="block w-5 h-px bg-charcoal transition-all duration-300" id="bar1"></span>
+          <span class="block w-5 h-px bg-charcoal transition-all duration-300" id="bar2"></span>
+          <span class="block w-3.5 h-px bg-charcoal transition-all duration-300" id="bar3"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 移动端折叠菜单 -->
+    <div id="mobile-menu" class="md:hidden hidden mobile-menu-bg">
+      <div class="px-6 py-8 space-y-6">
+        <a href="#hero" class="block text-base text-sub-gray hover:text-charcoal transition-colors duration-300 tracking-wide mobile-nav-link">首页</a>
+        <a href="#video-works" class="block text-base text-sub-gray hover:text-charcoal transition-colors duration-300 tracking-wide mobile-nav-link">视频作品</a>
+        <a href="#photo-works" class="block text-base text-sub-gray hover:text-charcoal transition-colors duration-300 tracking-wide mobile-nav-link">摄影图册</a>
+        <a href="#campus" class="block text-base text-sub-gray hover:text-charcoal transition-colors duration-300 tracking-wide mobile-nav-link">校园经历</a>
+        <a href="#about" class="block text-base text-sub-gray hover:text-charcoal transition-colors duration-300 tracking-wide mobile-nav-link">关于我</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- ============================================= -->
+  <!-- 2. Hero 首屏 -->
+  <!-- ============================================= -->
+  <section id="hero" class="min-h-screen flex items-center justify-center px-6 pt-20">
+    <div class="text-center max-w-xl mx-auto">
+      <p class="text-sub-gray text-sm md:text-base tracking-widest mb-6 fade-in-element font-light">
+        影视摄影与制作 / 视觉叙事 / 影像创作
+      </p>
+      <h1 class="text-charcoal font-serif text-3xl md:text-5xl font-light tracking-wider mb-8 fade-in-element">
+        刘安琪拉
+      </h1>
+      <p class="text-sub-gray text-sm md:text-base leading-relaxed font-light fade-in-element">
+        用镜头书写真实，在光影中寻找共鸣。
+      </p>
+    </div>
+  </section>
+
+
+  <!-- ============================================= -->
+  <!-- 3. 关于我 —— 个人资料介绍 -->
+  <!-- ============================================= -->
+  <section id="about" class="py-24 md:py-36 px-6">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-charcoal font-serif text-2xl md:text-3xl font-light tracking-wider mb-16 text-center fade-in-element">
+        个人资料介绍
+      </h2>
+
+      <!-- 基本信息 -->
+      <div class="fade-in-element mb-14">
+        <!-- 个人照片 -->
+        <div class="flex justify-center mb-10">
+          <img src="photo.jpg" alt="刘安琪拉" class="w-28 h-28 md:w-32 md:h-32 rounded-full object-cover border-2 border-border-light">
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-10">
+          <div>
+            <p class="text-sub-gray text-xs tracking-widest mb-1">姓名</p>
+            <p class="text-charcoal text-sm font-light">刘安琪拉</p>
+          </div>
+          <div>
+            <p class="text-sub-gray text-xs tracking-widest mb-1">年龄</p>
+            <p class="text-charcoal text-sm font-light">21岁</p>
+          </div>
+          <div>
+            <p class="text-sub-gray text-xs tracking-widest mb-1">政治面貌</p>
+            <p class="text-charcoal text-sm font-light">中共党员</p>
+          </div>
+          <div>
+            <p class="text-sub-gray text-xs tracking-widest mb-1">籍贯</p>
+            <p class="text-charcoal text-sm font-light">湖北武汉</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+          <div>
+            <p class="text-sub-gray text-xs tracking-widest mb-1">学历</p>
+            <p class="text-charcoal text-sm font-light">本科</p>
+          </div>
+          <div>
+            <p class="text-sub-gray text-xs tracking-widest mb-1">院校</p>
+            <p class="text-charcoal text-sm font-light">长沙理工大学</p>
+          </div>
+          <div class="col-span-2">
+            <p class="text-sub-gray text-xs tracking-widest mb-1">专业</p>
+            <p class="text-charcoal text-sm font-light">影视摄影与制作（2023—2027）</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================= -->
+  <!-- 4. 视频作品板块（12个作品，本地视频播放） -->
+  <!-- ============================================= -->
+  <section id="video-works" class="py-24 md:py-36 px-6 bg-bg-warm">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-charcoal font-serif text-2xl md:text-3xl font-light tracking-wider mb-4 text-center fade-in-element">
+        视频作品
+      </h2>
+      <p class="text-sub-gray text-sm text-center mb-16 font-light fade-in-element">
+        剧情片 · 纪录片 · 交互装置 · 宣传片 · 实验创作
+      </p>
+
+      <!-- 视频作品网格 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+
+        <!-- 作品 1：《画境寻色·千里江山湘韵记》 -->
+        <div class="work-card bg-white rounded-lg border border-border-light p-5 md:p-6 fade-in-element">
+          <h3 class="text-charcoal text-base font-medium mb-2 tracking-wide">
+            《画境寻色·千里江山湘韵记》
+          </h3>
+          <p class="text-sub-gray text-xs tracking-wide mb-4 font-light">AI + 实拍结合 · 传统文化剧情片</p>
+          <p class="text-sub-gray text-sm leading-relaxed font-light mb-4">
+            护画童子发现《千里江山图》色彩褪色，前往岳麓山学习古青绿颜料研磨技艺，最终修复古画。以 AI 数字创意搭配实景影像，实现现代技术对古典艺术的活化表达。
+          </p>
+          <div class="video-container">
+            <iframe src="https://player.bilibili.com/player.html?bvid=BV1yKaV6tE9R&high_quality=1&danmaku=0&autoplay=0" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <!-- 作品 2：《汉梦今缘》 -->
+        <div class="work-card bg-white rounded-lg border border-border-light p-5 md:p-6 fade-in-element">
+          <h3 class="text-charcoal text-base font-medium mb-2 tracking-wide">
+            《汉梦今缘》
+          </h3>
+          <p class="text-sub-gray text-xs tracking-wide mb-4 font-light">时空穿越题材 · 影视剧情短片</p>
+          <p class="text-sub-gray text-sm leading-relaxed font-light mb-4">
+            摄影系男生偶遇从汉代穿越而来的少女巧慧，二人在长沙相伴游历。男生经历跨越千年的梦境，放下对流量的追逐，回归摄影本心，选择用镜头记录与传播历史文化。
+          </p>
+          <div class="video-container">
+            <iframe src="https://player.bilibili.com/player.html?bvid=BV1KNaV6FEEH&high_quality=1&danmaku=0&autoplay=0" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <!-- 作品 3：《在时间之间》 -->
+        <div class="work-card bg-white rounded-lg border border-border-light p-5 md:p-6 fade-in-element">
+          <h3 class="text-charcoal text-base font-medium mb-2 tracking-wide">
+            《在时间之间》
+          </h3>
+          <p class="text-sub-gray text-xs tracking-wide mb-4 font-light">文化纪录短片 · 专业考察作品</p>
+          <p class="text-sub-gray text-sm leading-relaxed font-light mb-4">
+            前往河南、河北、北京九座城市，以「停留—流动—重叠」为核心论点，采用分章论证的叙事结构。聚焦文物建筑、市井日常与新时空共生，用影像完成观点论证。
+          </p>
+          <div class="video-container">
+            <iframe src="https://player.bilibili.com/player.html?bvid=BV12PaV6fEc4&high_quality=1&danmaku=0&autoplay=0" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <!-- 作品 4：《银纹造梦》 -->
+        <div class="work-card bg-white rounded-lg border border-border-light p-5 md:p-6 fade-in-element">
+          <h3 class="text-charcoal text-base font-medium mb-2 tracking-wide">
+            《银纹造梦》
+          </h3>
+          <p class="text-sub-gray text-xs tracking-wide mb-4 font-light">非遗主题 · 嵌入式视觉交互数字装置</p>
+          <p class="text-sub-gray text-sm leading-relaxed font-light mb-4">
+            以湘西苗族银饰锻制非遗技艺与四时民俗观念为内核，基于 CanMV K210 嵌入式视觉平台搭建虚实交互系统。识别到对应配饰后驱动粒子完成散逸、聚合成型、文字渐显的动态流程。
+          </p>
+          <div class="video-container">
+            <iframe src="https://player.bilibili.com/player.html?bvid=BV11PaV6fEB5&high_quality=1&danmaku=0&autoplay=0" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <!-- 作品 5：《趣享荟聚，无限玩趣》 -->
+        <div class="work-card bg-white rounded-lg border border-border-light p-5 md:p-6 fade-in-element">
+          <h3 class="text-charcoal text-base font-medium mb-2 tracking-wide">
+            《趣享荟聚，无限玩趣》
+          </h3>
+          <p class="text-sub-gray text-xs tracking-wide mb-4 font-light">长沙荟聚商业宣传视频 · 省赛二等奖</p>
+          <p class="text-sub-gray text-sm leading-relaxed font-light mb-4">
+            面向长沙荟聚商场的商业宣传短片，以「汇聚多元有趣的体验与欢乐」为核心主题。选取闺蜜、兄弟、情侣、亲子家庭等不同人群，记录各类群体在商场内的玩乐互动，传递快乐无设限的生活哲学。
+          </p>
+          <div class="video-container">
+            <iframe src="https://player.bilibili.com/player.html?bvid=BV1etaV6VEkW&high_quality=1&danmaku=0&autoplay=0" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <!-- 作品 6：芒果TV实习项目 -->
+        <div class="work-card bg-white rounded-lg border border-border-light p-5 md:p-6 fade-in-element">
+          <h3 class="text-charcoal text-base font-medium mb-2 tracking-wide">
+            芒果TV · 虚拟现实部门实习项目
+          </h3>
+          <p class="text-sub-gray text-xs tracking-wide mb-4 font-light">XR / MR 虚拟内容项目成品</p>
+          <p class="text-sub-gray text-sm leading-relaxed font-light mb-4">
+            参与 XR 虚拟内容项目前期美术工作，绘制 AI 生图参考手绘图；协助 MR 虚拟内容项目绿幕虚拟摄像现场执行，配合完成虚拟拍摄现场机位调试、画面监看、素材记录。
+          </p>
+          <div class="video-container">
+            <iframe src="https://player.bilibili.com/player.html?bvid=BV16jaV6DELQ&high_quality=1&danmaku=0&autoplay=0" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <!-- 作品 7：《MOLLY一直在身边》 -->
+        <div class="work-card bg-white rounded-lg border border-border-light p-5 md:p-6 fade-in-element">
+          <h3 class="text-charcoal text-base font-medium mb-2 tracking-wide">
+            《MOLLY一直在身边》
+          </h3>
+          <p class="text-sub-gray text-xs tracking-wide mb-4 font-light">AI 泡泡玛特 Molly IP 宣传视频</p>
+          <p class="text-sub-gray text-sm leading-relaxed font-light mb-4">
+            以泡泡玛特 Molly IP 为核心，采用 AI 生成技术创作宣传视频。通过实拍与 AI 结合的方式，展现 Molly 陪伴用户成长的情感主题。
+          </p>
+          <div class="video-container-auto">
+            <iframe src="https://player.bilibili.com/player.html?bvid=BV1vtaV65Eup&high_quality=1&danmaku=0&autoplay=0" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <!-- 作品 8：网络传媒实验创作 -->
+        <div class="work-card bg-white rounded-lg border border-border-light p-5 md:p-6 fade-in-element">
+          <h3 class="text-charcoal text-base font-medium mb-2 tracking-wide">
+            网络传媒实验创作
+          </h3>
+          <p class="text-sub-gray text-xs tracking-wide mb-4 font-light">实验性网络传媒内容</p>
+          <p class="text-sub-gray text-sm leading-relaxed font-light mb-4">
+            探索网络传媒语境下的实验性影像表达，尝试新媒体平台的内容形态与视觉语言。
+          </p>
+          <div class="video-container-auto">
+            <iframe src="https://player.bilibili.com/player.html?bvid=BV1vxaV6yEJf&high_quality=1&danmaku=0&autoplay=0" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <!-- 作品 9：电影二创混剪 -->
+        <div class="work-card bg-white rounded-lg border border-border-light p-5 md:p-6 fade-in-element">
+          <h3 class="text-charcoal text-base font-medium mb-2 tracking-wide">
+            电影二创混剪
+          </h3>
+          <p class="text-sub-gray text-xs tracking-wide mb-4 font-light">电影素材二次创作混剪</p>
+          <p class="text-sub-gray text-sm leading-relaxed font-light mb-4">
+            选取《乡愁》《镜子》《逃脱》《呼啸山庄》四部影片进行再创造剪辑，围绕「你不是你，而我即是存在」展开，强调本我主题。
+          </p>
+          <div class="video-container-auto">
+            <iframe src="https://player.bilibili.com/player.html?bvid=BV1RxaV6yE1o&high_quality=1&danmaku=0&autoplay=0" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <!-- 作品 10：《绘梦》（竖屏短剧，使用竖屏容器） -->
+        <div class="work-card bg-white rounded-lg border border-border-light p-5 md:p-6 fade-in-element">
+          <h3 class="text-charcoal text-base font-medium mb-2 tracking-wide">
+            《绘梦》
+          </h3>
+          <p class="text-sub-gray text-xs tracking-wide mb-4 font-light">实拍竖屏短剧</p>
+          <p class="text-sub-gray text-sm leading-relaxed font-light mb-4">
+            聚焦徐绘梦的成长历程。学生时代的她怀揣绘画梦想却遭受不理解，毕业后遭遇职场性别偏见，临近订婚看清男友冷漠。途经母校勾起回忆，绘画初心被唤醒，决心继续追逐梦想。
+          </p>
+          <div class="video-container-auto">
+            <iframe src="https://player.bilibili.com/player.html?bvid=BV1vxaV6yEoZ&high_quality=1&danmaku=0&autoplay=0" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <!-- 作品 11：《路上见》 -->
+        <div class="work-card bg-white rounded-lg border border-border-light p-5 md:p-6 fade-in-element">
+          <h3 class="text-charcoal text-base font-medium mb-2 tracking-wide">
+            《路上见》
+          </h3>
+          <p class="text-sub-gray text-xs tracking-wide mb-4 font-light">风光纪录片 · 云南实地考察</p>
+          <p class="text-sub-gray text-sm leading-relaxed font-light mb-4">
+            十二日云南实地考察实践成果，横跨滇池、东风韵、建水古城、元阳梯田、西双版纳傣族园、茶马古城等多地。捕捉自然风光、古今建筑风貌与少数民族人文纪实影像。
+          </p>
+          <div class="video-container">
+            <iframe src="https://player.bilibili.com/player.html?bvid=BV1fEaV6JEz9&high_quality=1&danmaku=0&autoplay=0" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <!-- 作品 12：《三迆人》 -->
+        <div class="work-card bg-white rounded-lg border border-border-light p-5 md:p-6 fade-in-element">
+          <h3 class="text-charcoal text-base font-medium mb-2 tracking-wide">
+            《三迆人》
+          </h3>
+          <p class="text-sub-gray text-xs tracking-wide mb-4 font-light">人文纪录片 · 云南实地考察</p>
+          <p class="text-sub-gray text-sm leading-relaxed font-light mb-4">
+            深入傣族园，以人文纪实方式记录市井夜市、宗教建筑、傣族节庆与百姓日常生活。借助构图、光影把控与后期调色，呈现云南多元的自然风貌与民族文化。
+          </p>
+          <div class="video-container">
+            <iframe src="https://player.bilibili.com/player.html?bvid=BV1JjaV6QEis&high_quality=1&danmaku=0&autoplay=0" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================= -->
+  <!-- 5. 摄影图册板块（2本PDF图册） -->
+  <!-- ============================================= -->
+  <section id="photo-works" class="py-24 md:py-36 px-6">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-charcoal font-serif text-2xl md:text-3xl font-light tracking-wider mb-4 text-center fade-in-element">
+        摄影图册
+      </h2>
+      <p class="text-sub-gray text-sm text-center mb-16 font-light fade-in-element">
+        点击图册可在线预览
+      </p>
+
+      <!-- 图册卡片 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+
+        <!-- 图册 1：《真亦？》 -->
+        <a href="photos/zhenyi-album.pdf" target="_blank" class="pdf-card block bg-white rounded-lg border border-border-light p-8 md:p-10 text-center fade-in-element">
+          <!-- PDF 图标 -->
+          <div class="mb-5">
+            <svg class="mx-auto w-10 h-10 text-accent opacity-50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+              <rect x="4" y="2" width="16" height="20" rx="2"/>
+              <line x1="8" y1="6" x2="16" y2="6"/>
+              <line x1="8" y1="10" x2="16" y2="10"/>
+              <line x1="8" y1="14" x2="12" y2="14"/>
+            </svg>
+          </div>
+          <h3 class="text-charcoal text-base font-medium mb-2 tracking-wide">
+            《真亦？》
+          </h3>
+          <p class="text-sub-gray text-xs font-light tracking-wide">
+            摄影图册 · PDF
+          </p>
+        </a>
+
+        <!-- 图册 2：《行止时记》 -->
+        <a href="photos/xingzhi-album.pdf" target="_blank" class="pdf-card block bg-white rounded-lg border border-border-light p-8 md:p-10 text-center fade-in-element">
+          <div class="mb-5">
+            <svg class="mx-auto w-10 h-10 text-accent opacity-50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+              <rect x="4" y="2" width="16" height="20" rx="2"/>
+              <line x1="8" y1="6" x2="16" y2="6"/>
+              <line x1="8" y1="10" x2="16" y2="10"/>
+              <line x1="8" y1="14" x2="12" y2="14"/>
+            </svg>
+          </div>
+          <h3 class="text-charcoal text-base font-medium mb-2 tracking-wide">
+            《行止时记》
+          </h3>
+          <p class="text-sub-gray text-xs font-light tracking-wide">
+            摄影图册 · PDF
+          </p>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================= -->
+  <!-- 6. 校园经历板块 -->
+  <!-- ============================================= -->
+  <section id="campus" class="py-24 md:py-36 px-6 bg-bg-warm">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-charcoal font-serif text-2xl md:text-3xl font-light tracking-wider mb-4 text-center fade-in-element">
+        校园经历
+      </h2>
+      <p class="text-sub-gray text-sm text-center mb-16 font-light fade-in-element">
+        实践影像
+      </p>
+
+      <!-- 校园实践视频 -->
+      <div class="fade-in-element">
+        <div class="grid grid-cols-1 gap-8">
+
+          <!-- 校园视频 1："藝力量"社会实践团宣传视频 -->
+          <div class="work-card bg-white rounded-lg border border-border-light p-5 fade-in-element">
+            <p class="text-sub-gray text-xs tracking-wide mb-4 font-light">「藝力量」社会实践团宣传视频</p>
+            <div class="video-container">
+              <iframe src="https://player.bilibili.com/player.html?bvid=BV16jaV6DENW&high_quality=1&danmaku=0&autoplay=0" allowfullscreen loading="lazy"></iframe>
+            </div>
+          </div>
+
+          <!-- 校园视频 2：大型晚会思政课堂宣传视频《篇章》 -->
+          <div class="work-card bg-white rounded-lg border border-border-light p-5 fade-in-element">
+            <p class="text-sub-gray text-xs tracking-wide mb-4 font-light">大型晚会思政课堂宣传视频《篇章》</p>
+            <div class="video-container">
+              <iframe src="https://player.bilibili.com/player.html?bvid=BV1FjaV6QENH&high_quality=1&danmaku=0&autoplay=0" allowfullscreen loading="lazy"></iframe>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================= -->
+  <!-- 7. 页脚 -->
+  <!-- ============================================= -->
+  <footer class="py-16 md:py-20 px-6 border-t border-border-light">
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="mb-8 space-y-3">
+        <!-- 【此处替换为邮箱】 -->
+        <p class="text-sub-gray text-sm font-light">
+          tk112302@163.com
+        </p>
+        <!-- 【此处替换为电话】 -->
+        <p class="text-sub-gray text-sm font-light">
+          18971228901
+        </p>
+        <!-- 【此处替换为社交账号链接】 -->
+        <div class="flex items-center justify-center space-x-8">
+          <a href="#" class="text-sub-gray text-sm font-light hover:text-accent transition-colors duration-300">B站</a>
+          <a href="#" class="text-sub-gray text-sm font-light hover:text-accent transition-colors duration-300">小红书</a>
+          <a href="#" class="text-sub-gray text-sm font-light hover:text-accent transition-colors duration-300">微博</a>
+        </div>
+      </div>
+      <p class="text-sub-gray text-xs font-light tracking-wide">
+        &copy; 2025 刘安琪拉 · All Rights Reserved
+      </p>
+    </div>
+  </footer>
+
+
+  <!-- ============================================= -->
+  <!-- JavaScript 交互逻辑 -->
+  <!-- ============================================= -->
+  <script>
+    // 1. 导航栏滚动效果
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('nav-scrolled', window.scrollY > 40);
+    });
+
+    // 2. 移动端汉堡菜单
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const bar1 = document.getElementById('bar1');
+    const bar2 = document.getElementById('bar2');
+    const bar3 = document.getElementById('bar3');
+    let menuOpen = false;
+
+    menuBtn.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      mobileMenu.classList.toggle('hidden');
+      if (menuOpen) {
+        bar1.style.transform = 'rotate(45deg) translate(3px, 3px)';
+        bar2.style.opacity = '0';
+        bar3.style.transform = 'rotate(-45deg) translate(3px, -3px)';
+        bar3.style.width = '1.25rem';
+      } else {
+        bar1.style.transform = '';
+        bar2.style.opacity = '1';
+        bar3.style.transform = '';
+        bar3.style.width = '0.875rem';
+      }
+    });
+
+    // 点击菜单链接后关闭
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        menuOpen = false;
+        mobileMenu.classList.add('hidden');
+        bar1.style.transform = '';
+        bar2.style.opacity = '1';
+        bar3.style.transform = '';
+        bar3.style.width = '0.875rem';
+      });
+    });
+
+    // 3. 滚动淡入效果
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+    document.querySelectorAll('.fade-in-element').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
